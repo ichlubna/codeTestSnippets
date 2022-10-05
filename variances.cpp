@@ -16,7 +16,7 @@ float classicVariance(std::vector<float> data)
     return var/(data.size()-1);
 }
 
-float noMeanVariance(std::vector<float> data)
+float onePassVariance(std::vector<float> data)
 {
     float m{0};
     float m2{0};
@@ -60,7 +60,7 @@ int main()
 {
 std::vector<float> data{1,5,10,3,20,50,255,1};
 std::cout << "Classic: " << classicVariance(data) << std::endl;
-std::cout << "No mean: " << noMeanVariance(data) << std::endl;
+std::cout << "One pass: " << onePassVariance(data) << std::endl;
 OnlineVariance ov;
 for(const auto val : data)
     ov += val;

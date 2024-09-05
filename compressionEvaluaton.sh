@@ -21,12 +21,12 @@ echo $HEADER > $RESULTS
 compareAndStore ()
 {
     INPUT=$1
-    REFERENCE=$2
-    RESULT=$($FFMPEG -i $INPUT -i $REFERENCE -filter_complex "psnr" -f null /dev/null 2>&1)
+    REFERENCE_INPUT=$2
+    RESULT=$($FFMPEG -i $INPUT -i $REFERENCE_INPUT -filter_complex "psnr" -f null /dev/null 2>&1)
     PSNR=$(echo "$RESULT" | grep -oP '(?<=average:).*?(?= min)')
-    RESULT=$($FFMPEG -i $INPUT -i $REFERENCE -filter_complex "ssim" -f null /dev/null 2>&1)
+    RESULT=$($FFMPEG -i $INPUT -i $REFERENCE_INPUT -filter_complex "ssim" -f null /dev/null 2>&1)
     SSIM=$(echo "$RESULT" | grep -oP '(?<=All:).*?(?= )')
-    RESULT=$($FFMPEG -i $INPUT -i $REFERENCE -lavfi libvmaf -f null /dev/null 2>&1)
+    RESULT=$($FFMPEG -i $INPUT -i $REFERENCE_INPUT -lavfi libvmaf -f null /dev/null 2>&1)
     VMAF=$(echo "$RESULT" | grep -oP '(?<=VMAF score: ).*')
     $FFMPEG -y -i $1 -pix_fmt rgb48be $TEMP/1.png
     $FFMPEG -y -i $2 -pix_fmt rgb48be $TEMP/2.png

@@ -100,7 +100,7 @@ for FILE in $INPUT_DIR/*.NEF; do
             fi
             $FFMPEG -y -i $TEMP/$PIXFMT.mkv -strict -1 -pix_fmt $PIXFMT $TEMP/input.y4m
             START=$(date +%s.%N)
-            $VVC/bin/EncoderAppStatic -fr 25 --InputChromaFormat=$CHROMA -i $TEMP/input.y4m -c $VVC/cfg/encoder_lowdelay_P_vtm.cfg -c $VVC/cfg/444/yuv444.cfg --InternalBitDepth=$DEPTH -q $CRF -f 1 -b $COMPRESSED
+            $VVC/bin/EncoderAppStatic --AdaptBypassAffineMe --BcwFast --FastLFNST --TransformSkipFast --ISPFast --FastLocalDualTreeMode 2 --FastMEAssumingSmootherMVEnabled --AlfLambdaOpt --AffineAmvrEncOpt --ContentBasedFastQtbt --FEN 1 -fr 25 --InputChromaFormat=$CHROMA -i $TEMP/input.y4m -c $VVC/cfg/encoder_lowdelay_P_vtm.cfg -c $VVC/cfg/444/yuv444.cfg --InternalBitDepth=$DEPTH -q $CRF -f 1 -b $COMPRESSED
             END=$(date +%s.%N)
             ELAPSED=$(echo "$END - $START" | bc)
             DECOMPRESSED=$TEMP/output.y4m
@@ -169,7 +169,7 @@ for FILE in $INPUT_DIR/*.NEF; do
         END=$(date +%s.%N)
         ELAPSED=$(echo "$END - $START" | bc)
         SIZE=$(stat --printf="%s" $COMPRESSED)
-        $DECOMPRESSED=$TEMP/exr.png
+        DECOMPRESSED=$TEMP/exr.png
         $MAGICK $COMPRESSED -depth 16 $DECOMPRESSED
         compareAndStore $DECOMPRESSED $REFERENCE $COMPRESSION $FILE $CODEC $ELAPSED 0 $SIZE 
     done  

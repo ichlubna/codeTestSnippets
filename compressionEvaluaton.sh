@@ -162,7 +162,7 @@ for FILE in $INPUT_DIR/*.NEF; do
     done 
     
     CODEC=exr
-    COMPRESSED=$TEMP/exr.webp
+    COMPRESSED=$TEMP/exr.exr
     for COMPRESSION in RLE ZIP Piz Pxr24 B44 DWAA DWAB; do
         START=$(date +%s.%N)
         $MAGICK $REFERENCE -compress $COMPRESSION $COMPRESSED 
